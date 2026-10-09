@@ -22,7 +22,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Impostazioni generali: sfondo uniforme anche nella Home. */
+/* Impostazioni generali: sfondo uniforme anche nella Homee. */
 body {
     margin: 0;
     background: var(--background);
