@@ -1118,16 +1118,15 @@ body:has(.navigation-menu[open]) {
     text-align: center;
 }
 
-/* Link dei tre progetti, centrati nella parte alta delle copertine. */
+/* Posiziona i tre pulsanti sotto le tecnologie, centrati. */
 .project-cover-link {
-    position: absolute;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+    grid-area: action;
+    justify-self: center;
+    position: static;
+    transform: none;
 
-    width: max-content;
-    max-width: calc(100% - 24px);
+    width: fit-content;
+    max-width: 100%;
     box-sizing: border-box;
     padding: 10px 16px;
 
