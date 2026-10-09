@@ -1,0 +1,1550 @@
+/* =========================================================
+   COLORI E IMPOSTAZIONI GENERALI
+   ========================================================= */
+
+:root {
+    --background: #0f0b18;
+    --surface: #171123;
+    --text: #f5f2fc;
+    --muted: #bcb4cc;
+    --lilac: #a78bfa;
+    --pink: #f472b6;
+    --border: #332644;
+    --arcade-font: "Orbitron", "Segoe UI", sans-serif;
+}
+
+/* Include bordi e padding nelle dimensioni degli elementi. */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Impostazioni generali: sfondo uniforme anche nella Home. */
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    isolation: isolate;
+}
+
+/* =========================================================
+   SCHERMATE INTERNE — CIRCUITI E LED IN MOVIMENTO
+   ========================================================= */
+
+/* Contiene i circuiti dietro ai contenuti della schermata. */
+.projects-section,
+.about-section,
+.contact-section {
+    position: relative;
+    isolation: isolate;
+    background: var(--background);
+}
+
+/* Disegno decorativo esteso su tutta la sezione. */
+.page-circuit {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Percorsi geometrici sottili, nei colori del portfolio. */
+.page-circuit path {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.page-circuit .circuit-lilac {
+    stroke: var(--lilac);
+}
+
+.page-circuit .circuit-rose {
+    stroke: var(--pink);
+}
+
+/* Linee di fondo discrete, per mantenere leggibili i testi. */
+.page-circuit-base {
+    opacity: 0.14;
+}
+
+/* Segmenti luminosi che seguono esattamente i percorsi. */
+.page-circuit-led {
+    stroke-dasharray: 12 988;
+    filter: drop-shadow(0 0 4px rgb(167 139 250 / 75%));
+    opacity: 0.7;
+    animation: page-circuit-flow 16s linear infinite;
+}
+
+/* Sfasamento delle luci: non partono tutte insieme. */
+.page-circuit-led:nth-child(2n) {
+    animation-delay: -6s;
+    animation-duration: 21s;
+}
+
+.page-circuit-led:nth-child(3n) {
+    animation-delay: -11s;
+    animation-duration: 18s;
+}
+
+/* Fa scorrere ogni LED lungo la propria linea. */
+@keyframes page-circuit-flow {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Mantiene i circuiti, senza movimento, quando richiesto. */
+@media (prefers-reduced-motion: reduce) {
+    .page-circuit-led {
+        animation: none;
+        stroke-dashoffset: -450;
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+::selection {
+    background: var(--lilac);
+    color: var(--background);
+}
+
+/* Evidenzia i controlli durante la navigazione con la tastiera. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+    outline: 2px solid var(--pink);
+    outline-offset: 6px;
+}
+
+
+/* =========================================================
+   SFONDO ANIMATO — SCENA ARCADE IN PROSPETTIVA
+   ========================================================= */
+
+/* Contiene la scena nella home e lascia liberi i clic. */
+.arcade-background {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    perspective: 600px;
+    perspective-origin: 50% 58%;
+
+    /* Luce diffusa all'orizzonte nei colori del logo. */
+    background:
+        radial-gradient(
+            ellipse at 50% 62%,
+            rgb(167 139 250 / 18%),
+            transparent 48%
+        ),
+        radial-gradient(
+            ellipse at 72% 65%,
+            rgb(244 114 182 / 10%),
+            transparent 38%
+        ),
+        var(--background);
+}
+
+/* Pavimento ampio, inclinato verso un punto di fuga centrale. */
+.arcade-grid {
+    position: absolute;
+    top: 60%;
+    left: -75%;
+    width: 250%;
+    height: 160%;
+    transform-origin: center top;
+    transform: rotateX(68deg);
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgb(167 139 250 / 40%) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            rgb(244 114 182 / 28%) 1px,
+            transparent 1px
+        );
+    background-size: 80px 80px;
+
+    /* La griglia emerge gradualmente dalla luce dell'orizzonte. */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 18%,
+        black 70%,
+        transparent
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 18%,
+        black 70%,
+        transparent
+    );
+
+        /* Mantiene lo scorrimento originale della griglia. */
+    animation: arcade-grid-scroll 16s linear infinite;
+
+}
+
+/* Fascia luminosa sfumata nel punto in cui comincia il pavimento. */
+.arcade-background::before {
+    content: "";
+    position: absolute;
+    top: 60%;
+    left: 15%;
+    width: 70%;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #8b5cf6 30%,
+        #c4b5fd 50%,
+        #f472b6 70%,
+        transparent
+    );
+    box-shadow:
+        0 0 16px rgb(167 139 250 / 35%),
+        0 0 42px rgb(244 114 182 / 18%);
+    opacity: 0.55;
+}
+
+/* Vignettatura: oscura i bordi e concentra l'attenzione al centro. */
+.arcade-background::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(
+        ellipse at 50% 45%,
+        transparent 25%,
+        rgb(15 11 24 / 35%) 65%,
+        rgb(15 11 24 / 85%) 100%
+    );
+}
+
+/* Scorrimento lento delle linee verso lo spettatore. */
+@keyframes arcade-grid-scroll {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 80px;
+    }
+}
+
+/* =========================================================
+   GATTO PIXEL — LIVELLO DECORATIVO DELLA HOME
+   ========================================================= */
+
+/* Disegno trasparente sopra il pavimento, senza ostacolare i clic. */
+.pixel-cat {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* =========================================================
+   INTESTAZIONE E NAVIGAZIONE
+   ========================================================= */
+
+.site-header {
+    position: relative;
+    z-index: 10;
+}
+
+.navbar {
+    width: min(1440px, 92%);
+    min-height: 112px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo cliccabile: riporta alla home. */
+.brand {
+    display: inline-flex;
+    flex-shrink: 0;
+}
+
+/* Prepara una transizione morbida del bagliore. */
+.brand-logo {
+    display: block;
+    transition: filter 180ms ease;
+}
+
+/* Illumina il profilo del gatto al passaggio del mouse
+   e quando il collegamento viene selezionato con la tastiera. */
+.brand:hover .brand-logo,
+.brand:focus-visible .brand-logo {
+    filter:
+        drop-shadow(0 0 4px rgb(167 139 250 / 65%))
+        drop-shadow(0 0 10px rgb(167 139 250 / 40%))
+        drop-shadow(0 0 18px rgb(244 114 182 / 25%));
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Pulsante lingua con lo stesso carattere geometrico del titolo. */
+.language-toggle {
+    min-width: 54px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid rgb(167 139 250 / 45%);
+    border-radius: 4px;
+    background: rgb(167 139 250 / 5%);
+    color: #c4b5fd;
+    font-family: var(--arcade-font);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.language-toggle:hover {
+    border-color: var(--lilac);
+    box-shadow: 0 0 12px rgb(167 139 250 / 15%);
+}
+
+.language-toggle:active {
+    box-shadow: none;
+}
+
+/* =========================================================
+   MENU A TUTTA SCHERMATA
+   ========================================================= */
+
+.navigation-menu {
+    position: relative;
+}
+
+/* Pulsante Esplora il sito: dimensioni adattate alla scritta. */
+.navigation-menu summary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    padding: 11px 22px;
+    list-style: none;
+
+    color: var(--text);
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+/* Mostra la scritta in italiano o inglese. */
+.navigation-menu summary span {
+    display: inline;
+}
+
+/* Nasconde la freccia predefinita del browser. */
+.navigation-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+/* A menu aperto, il pulsante diventa una X in alto a destra. */
+.navigation-menu[open] summary {
+    position: fixed;
+    top: 34px;
+    right: 4%;
+    z-index: 22;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: #c4b5fd;
+    transform: none;
+}
+
+/* Nasconde il testo soltanto quando il menu è aperto. */
+.navigation-menu[open] summary span {
+    display: none;
+}
+
+/* Simbolo per chiudere il menu. */
+.navigation-menu[open] summary::before {
+    content: "×";
+    font-family: Arial, sans-serif;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* Bagliore della X al passaggio del mouse. */
+.navigation-menu[open] summary:hover {
+    box-shadow: none;
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 65%),
+        0 0 12px rgb(167 139 250 / 45%);
+}
+
+/* Sfondo a tutta schermata con le voci del menu al centro. */
+.navigation-menu[open] .menu-links {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    isolation: isolate;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 2vh, 24px);
+
+    padding: 130px 24px 50px;
+    overflow-y: auto;
+
+    background:
+        radial-gradient(
+            ellipse at 15% 50%,
+            rgb(244 114 182 / 8%),
+            transparent 40%
+        ),
+        radial-gradient(
+            ellipse at 85% 55%,
+            rgb(167 139 250 / 10%),
+            transparent 40%
+        ),
+        var(--background);
+}
+
+/* =========================================================
+   MENU — PERCORSI NEON ANIMATI
+   ========================================================= */
+
+/* Disegno a tutta schermata dietro alle voci del menu.
+   La zona centrale è attenuata per mantenere leggibili i testi. */
+.menu-circuit {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    -webkit-mask-image: radial-gradient(
+        ellipse at center,
+        rgb(0 0 0 / 12%) 15%,
+        rgb(0 0 0 / 55%) 45%,
+        black 75%
+    );
+
+    mask-image: radial-gradient(
+        ellipse at center,
+        rgb(0 0 0 / 12%) 15%,
+        rgb(0 0 0 / 55%) 45%,
+        black 75%
+    );
+}
+
+/* Colori coerenti con il portfolio, con un accento celeste. */
+.track-pink {
+    stroke: #f472b6;
+}
+
+.track-purple {
+    stroke: #a78bfa;
+}
+
+.track-blue {
+    stroke: #56cfff;
+}
+
+/* Percorsi continui sullo sfondo. */
+.circuit-tracks path {
+    fill: none;
+    stroke-width: 4;
+    stroke-linejoin: miter;
+    opacity: 0.2;
+}
+
+/* Breve segmento luminoso che scorre su ogni percorso. */
+.circuit-lights path {
+    fill: none;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 18 982;
+    filter:
+        drop-shadow(0 0 4px currentColor)
+        drop-shadow(0 0 10px currentColor);
+
+    animation: circuit-flow 12s linear infinite;
+}
+
+/* Il colore del bagliore segue quello della linea. */
+.circuit-lights .track-pink {
+    color: #f472b6;
+}
+
+.circuit-lights .track-purple {
+    color: #a78bfa;
+}
+
+.circuit-lights .track-blue {
+    color: #56cfff;
+}
+
+/* Tempi diversi evitano che tutte le luci si muovano insieme. */
+.circuit-lights path:nth-child(2) {
+    animation-delay: -4s;
+    animation-duration: 15s;
+}
+
+.circuit-lights path:nth-child(3) {
+    animation-delay: -8s;
+    animation-duration: 18s;
+}
+
+.circuit-lights path:nth-child(4) {
+    animation-delay: -6s;
+    animation-duration: 14s;
+}
+
+.circuit-lights path:nth-child(5) {
+    animation-delay: -10s;
+    animation-duration: 17s;
+}
+
+.circuit-lights path:nth-child(6) {
+    animation-delay: -3s;
+    animation-duration: 13s;
+}
+
+/* Sposta il segmento luminoso lungo il percorso SVG. */
+@keyframes circuit-flow {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+/* Mantiene il disegno statico se sono richiesti movimenti ridotti. */
+@media (prefers-reduced-motion: reduce) {
+    .circuit-lights path {
+        animation: none;
+    }
+}
+
+/* Mantiene logo e lingua visibili sopra il menu aperto. */
+body:has(.navigation-menu[open]) .brand,
+body:has(.navigation-menu[open]) .language-toggle {
+    position: relative;
+    z-index: 21;
+}
+
+/* Blocca lo scorrimento della pagina dietro al menu. */
+body:has(.navigation-menu[open]) {
+    overflow: hidden;
+}
+
+/* Voci grandi, centrate e con il carattere del portfolio. */
+.menu-links a {
+    position: relative;
+    display: block;
+    max-width: 100%;
+    padding: 4px 28px;
+
+    color: #c4b5fd;
+    font-family: var(--arcade-font);
+    font-size: clamp(26px, 5vw, 62px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    text-align: center;
+    text-transform: uppercase;
+
+    transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+/* Stella lilla accanto alle voci del menu. */
+.menu-symbol {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    color: #d8b4fe;
+    font-size: 16px;
+    line-height: 1;
+    text-shadow: 0 0 5px var(--lilac);
+}
+
+/* Illuminazione della voce indicata con mouse o tastiera. */
+.menu-links a:hover,
+.menu-links a:focus-visible {
+    color: #e2d6ff;
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 65%),
+        0 0 14px rgb(167 139 250 / 45%),
+        0 0 26px rgb(139 92 246 / 25%);
+}
+
+/* =========================================================
+   LOGO RR A FORMA DI GATTO — SOLO HTML E CSS
+   ========================================================= */
+
+/* Contenitore trasparente: non utilizza l'immagine PNG. */
+.cat-logo {
+    position: relative;
+    display: block;
+    width: 110px;
+    height: 110px;
+    background: transparent;
+}
+
+/* Cerchio sfumato dal viola al rosa, con centro vuoto. */
+.cat-ring {
+    position: absolute;
+    inset: 5px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #f472b6) border-box;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: drop-shadow(0 0 3px var(--lilac));
+}
+
+/* La R sinistra è specchiata rispetto alla destra. */
+.cat-letter {
+    position: absolute;
+    top: 34px;
+    color: #b7a4f5;
+    font-family: Arial, sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.letter-left {
+    left: 26px;
+    transform: scaleX(-1);
+}
+
+.letter-right {
+    right: 26px;
+}
+
+/* Orecchie geometriche aperte in basso. */
+.cat-ear {
+    position: absolute;
+    top: 27px;
+    width: 22px;
+    height: 22px;
+    border-top: 3px solid #c4b5fd;
+    border-left: 3px solid var(--lilac);
+    transform: rotate(45deg);
+}
+
+.ear-left {
+    left: 27px;
+}
+
+.ear-right {
+    right: 27px;
+}
+
+/* Stella luminosa al centro della fronte. */
+.cat-star {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #d8b4fe;
+    font-size: 14px;
+    line-height: 1;
+    text-shadow: 0 0 5px var(--lilac);
+}
+
+/* Nasino triangolare con un piccolo bagliore rosa. */
+.cat-nose {
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #f0abfc;
+    filter: drop-shadow(0 0 3px #e879f9);
+}
+
+/* Due baffi su ciascun lato. */
+.cat-whiskers {
+    position: absolute;
+    top: 59px;
+    width: 17px;
+    height: 8px;
+    border-top: 2px solid #c4b5fd;
+    border-bottom: 2px solid #c4b5fd;
+}
+
+.whiskers-left {
+    left: 19px;
+    transform: rotate(-10deg);
+}
+
+.whiskers-right {
+    right: 19px;
+    transform: rotate(10deg);
+}
+
+/* I gruppi di quadratini hanno altezze e spaziature identiche. */
+.cat-pixels {
+    position: absolute;
+    top: 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pixels-left {
+    left: 16px;
+}
+
+.pixels-right {
+    right: 16px;
+}
+
+.cat-pixels i {
+    display: block;
+    width: 4px;
+    height: 4px;
+    background: var(--lilac);
+    box-shadow: 0 0 4px var(--lilac);
+}
+
+/* Il quadratino centrale rosa si sposta verso il muso. */
+.cat-pixels i:nth-child(2) {
+    background: var(--pink);
+    box-shadow: 0 0 4px var(--pink);
+}
+
+.pixels-left i:nth-child(2) {
+    transform: translateX(4px);
+}
+
+.pixels-right i:nth-child(2) {
+    transform: translateX(-4px);
+}
+
+/* Simbolo di programmazione sotto il muso. */
+.cat-code {
+    position: absolute;
+    top: 79px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #c4b5fd;
+    font-family: Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0 0 5px var(--lilac);
+}
+
+
+/* =========================================================
+   HOME E PRESENTAZIONE
+   ========================================================= */
+
+/* Centra la presentazione nello spazio sotto l'intestazione. */
+.hero {
+    min-height: calc(100svh - 112px);
+    /* Contiene lo sfondo animato nella sola home. */
+    position: relative;
+    isolation: isolate;
+    padding: 48px 6% 100px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+/* Sposta la presentazione mantenendo il menu
+   a tutta schermata ancorato alla finestra del browser. */
+.hero-content {
+    position: relative;
+    top: clamp(-150px, -16svh, -70px);
+    width: 100%;
+    max-width: 980px;
+}
+
+.hero h1 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Nome pieno con carattere geometrico e luce leggera. */
+.hero-name {
+    display: block;
+    margin-bottom: 18px;
+    font-family: var(--arcade-font);
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    text-shadow: 0 0 16px rgb(167 139 250 / 16%);
+}
+
+/* Frase principale: colore pieno come alternativa al contorno. */
+.hero-heading {
+    display: block;
+    max-width: 900px;
+    margin-inline: auto;
+    font-family: var(--arcade-font);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #c4b5fd;
+}
+
+/* Mantiene la frase delineata e aggiunge il bagliore lilla dei titoli. */
+@supports (-webkit-text-stroke: 1px #c4b5fd) {
+    .hero-heading {
+        color: transparent;
+        -webkit-text-stroke: 1px #e2d6ff;
+
+        text-shadow:
+            0 0 5px rgb(196 181 253 / 65%),
+            0 0 14px rgb(167 139 250 / 45%),
+            0 0 26px rgb(139 92 246 / 25%);
+    }
+}
+
+/* Ruolo professionale bianco con un bagliore morbido. */
+.hero-role {
+    margin: 28px auto 16px;
+    color: #ffffff;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.6;
+
+        /* Bagliore bianco leggero, più discreto. */
+    text-shadow:
+        0 0 4px rgb(255 255 255 / 25%),
+        0 0 9px rgb(255 255 255 / 10%);
+}
+
+/* Descrizione leggibile, con lo stesso carattere del ruolo. */
+.hero-description {
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+/* Collegamenti ai progetti e al percorso personale. */
+.hero-links {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* Pulsanti con carattere arrotondato e bordi luminosi discreti. */
+.hero-link {
+    padding: 11px 22px;
+    border: 1px solid var(--lilac);
+    border-radius: 999px;
+    background: rgb(167 139 250 / 7%);
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.secondary-link {
+    border-color: var(--border);
+    background: transparent;
+}
+
+.hero-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 18px rgb(167 139 250 / 18%);
+}
+
+
+.site-footer {
+    padding: 28px 5%;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* =========================================================
+   PROGETTI — ELENCO, COPERTINA E DESCRIZIONE
+   ========================================================= */
+
+/* Spazio della schermata sotto l'intestazione. */
+.projects-section {
+    min-height: calc(100svh - 112px);
+    padding: 60px 4% 80px;
+}
+
+/* Elenco compatto a sinistra e più spazio per immagine e racconto. */
+.projects-layout {
+    width: min(1440px, 100%);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.65fr) minmax(0, 2fr);
+    align-items: start;
+    gap: clamp(28px, 3vw, 48px);
+}
+
+/* Copertina a sinistra e colonna più ampia per la descrizione. */
+.project-preview {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    grid-template-areas:
+        "title ."
+        "cover description"
+        "technologies .";
+    align-items: start;
+    column-gap: 28px;
+    row-gap: 20px;
+}
+
+
+/* =========================================================
+   ELENCO DEI PROGETTI
+   ========================================================= */
+
+/* Titolo Progetti e numero totale. */
+.projects-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--lilac);
+}
+
+/* Titolo PROGETTI con luce lilla diffusa. */
+.projects-header h2 {
+    margin: 0;
+    color: #e2d6ff;
+    font-family: var(--arcade-font);
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 65%),
+        0 0 14px rgb(167 139 250 / 45%),
+        0 0 26px rgb(139 92 246 / 25%);
+}
+
+.projects-count {
+    color: var(--muted);
+    font-family: var(--arcade-font);
+    font-size: 14px;
+}
+
+/* Ogni riga permette di selezionare un progetto. */
+.project-choice {
+    width: 100%;
+    padding: 25px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    transition: color 180ms ease, border-color 180ms ease;
+}
+
+.project-choice-name {
+    font-family: var(--arcade-font);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.project-choice-category {
+    color: var(--muted);
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 12px;
+    text-align: right;
+}
+
+/* Evidenzia il progetto selezionato o indicato dal mouse. */
+.project-choice:hover,
+.project-choice.is-selected {
+    color: #c4b5fd;
+    border-bottom-color: var(--lilac);
+}
+
+.project-choice.is-selected .project-choice-name {
+    text-shadow: 0 0 12px rgb(167 139 250 / 22%);
+}
+
+
+/* =========================================================
+   ANTEPRIMA — POSIZIONE DEI CONTENUTI
+   ========================================================= */
+
+/* Titoli dei tre progetti centrati sopra l'immagine e illuminati. */
+.project-preview h3 {
+    grid-area: title;
+    margin: 0;
+    color: #e2d6ff;
+    font-family: var(--arcade-font);
+    font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+    line-height: 1.5;
+    text-align: center;
+
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 65%),
+        0 0 12px rgb(167 139 250 / 45%),
+        0 0 22px rgb(139 92 246 / 25%);
+}
+
+
+/* =========================================================
+   COPERTINE — IMMAGINI INTERE
+   ========================================================= */
+
+/* La copertina occupa la prima colonna senza cornici vuote. */
+.project-cover {
+    grid-area: cover;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgb(167 139 250 / 25%);
+    border-radius: 24px;
+    background: var(--surface);
+}
+
+/* Mantiene le proporzioni originali senza tagliare l'immagine. */
+.project-cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+
+/* =========================================================
+   TECNOLOGIE — CENTRATE SOTTO LA COPERTINA
+   ========================================================= */
+
+.project-technologies {
+    grid-area: technologies;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+}
+
+/* Tecnologie: sfondo pieno per separarle dai circuiti decorativi. */
+.project-technologies li {
+    padding: 5px 11px;
+    border: 1px solid rgb(167 139 250 / 45%);
+    border-radius: 8px;
+    background: #21182f;
+
+    color: #eee7ff;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+/* =========================================================
+   DESCRIZIONE — RIQUADRO A DESTRA DELLA COPERTINA
+   ========================================================= */
+
+/* Riquadro largo quanto la colonna disponibile.
+   Descrizione e percorso sono uno sotto l'altro;
+   l'altezza dipende dal contenuto. */
+.project-description {
+    grid-area: description;
+    display: block;
+    align-self: start;
+    justify-self: stretch;
+    position: relative;
+
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    padding: 28px 26px;
+
+    border: 1px solid rgb(167 139 250 / 22%);
+    border-radius: 24px;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgb(167 139 250 / 12%),
+            transparent 65%
+        ),
+        var(--surface);
+
+    color: #d2cadf;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.85;
+    text-align: left;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 12%);
+}
+
+/* Accento luminoso sul bordo superiore del riquadro. */
+.project-description::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 26px;
+    width: 65px;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--lilac), var(--pink));
+    box-shadow: 0 0 10px rgb(167 139 250 / 20%);
+}
+/* Elimina i margini esterni dei paragrafi nel riquadro. */
+.project-description p {
+    margin: 0;
+}
+
+/* Separa le due sezioni lasciando spazio alla linea luminosa. */
+.project-journey {
+    position: relative;
+    margin-top: 24px;
+    padding-top: 22px;
+}
+
+/* Linea LED lilla e rosa, con bagliore leggero. */
+.project-journey::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+
+    background: linear-gradient(
+        90deg,
+        var(--lilac),
+        #d8b4fe,
+        var(--pink)
+    );
+
+    box-shadow:
+        0 0 5px rgb(167 139 250 / 55%),
+        0 0 12px rgb(244 114 182 / 25%);
+}
+
+/* Stile comune ai titoli Sviluppo e Il mio percorso. */
+.project-description h4 {
+    margin: 0 0 12px;
+    color: #c4b5fd;
+    font-family: var(--arcade-font);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Il racconto personale ha un colore leggermente più morbido. */
+.project-journey p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.85;
+}
+
+
+/* =========================================================
+   PROGETTI — TABLET E SMARTPHONE
+   ========================================================= */
+
+/* Su schermi intermedi l'elenco passa sopra l'anteprima. */
+@media (max-width: 1100px) {
+    .projects-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .project-preview {
+        justify-content: center;
+        grid-template-columns: minmax(0, 380px) minmax(0, 340px);
+    }
+}
+
+/* Su smartphone tutti i contenuti si dispongono in verticale. */
+@media (max-width: 600px) {
+    .projects-section {
+        min-height: calc(100svh - 88px);
+        padding: 35px 6% 60px;
+    }
+
+    .project-preview {
+        grid-template-columns: minmax(0, 380px);
+        grid-template-areas:
+            "title"
+            "cover"
+            "technologies"
+            "description";
+        row-gap: 20px;
+    }
+
+    .project-description {
+        padding: 25px 22px;
+    }
+}
+
+/* =========================================================
+   CHI SONO — TESTO A SINISTRA E FOTO A DESTRA
+   ========================================================= */
+
+/* Testo a sinistra e foto nell'ultimo quarto della pagina. */
+.about-section {
+    min-height: calc(100svh - 112px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 24%;
+    align-items: start;
+}
+
+/* Lascia spazio intorno al testo come nel riferimento. */
+.about-content {
+    min-width: 0;
+    padding: clamp(50px, 8vh, 100px) 7vw 70px;
+}
+
+/* Titolo illuminato e linea sotto la scritta. */
+.about-content h2 {
+    margin: 0 0 26px;
+    padding-bottom: 18px;
+    position: relative;
+
+    color: #e2d6ff;
+    font-family: var(--arcade-font);
+    font-size: clamp(28px, 3vw, 42px);
+    font-weight: 700;
+    line-height: 1.3;
+    text-transform: uppercase;
+
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 65%),
+        0 0 14px rgb(167 139 250 / 45%),
+        0 0 26px rgb(139 92 246 / 25%);
+}
+
+/* Linea LED sotto Chi sono, nello stesso stile dei Progetti. */
+.about-content h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+
+    background: linear-gradient(
+        90deg,
+        var(--lilac),
+        #ddd0ff 50%,
+        var(--pink)
+    );
+
+    box-shadow:
+        0 0 6px rgb(167 139 250 / 55%),
+        0 0 14px rgb(167 139 250 / 30%),
+        0 0 22px rgb(244 114 182 / 15%);
+}
+
+/* Testo personale leggibile, senza un riquadro intorno. */
+.about-text {
+    max-width: 760px;
+    color: #d2cadf;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: clamp(16px, 1.3vw, 19px);
+    line-height: 1.85;
+}
+
+.about-text p {
+    margin: 0;
+}
+
+/* Separa i due paragrafi senza dividerli con altre linee. */
+.about-text p + p {
+    margin-top: 22px;
+}
+
+/* Dispone i due download affiancati; su schermi stretti vanno a capo. */
+.about-downloads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: 28px;
+}
+
+/* Collegamento al PDF: stile essenziale come nel riferimento. */
+.about-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 5px 0;
+
+    color: #c4b5fd;
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+/* Illumina il collegamento al passaggio del mouse. */
+.about-download:hover {
+    color: #e2d6ff;
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 45%),
+        0 0 12px rgb(167 139 250 / 25%);
+}
+
+/* Foto verticale sul bordo destro.
+   Arrotonda soltanto l'angolo inferiore sinistro. */
+.about-photo {
+    width: 100%;
+    height: 78svh;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 0 0 0 48px;
+    background: var(--surface);
+}
+
+/* Riempie lo spazio della foto senza deformarla.
+   Privilegia la parte superiore per mantenere visibile il volto. */
+.about-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+/* Su tablet e smartphone la foto passa sotto il testo. */
+@media (max-width: 800px) {
+    .about-section {
+        grid-template-columns: 1fr;
+    }
+
+    .about-content {
+        padding: 40px 6%;
+    }
+
+    /* Su smartphone la foto passa sotto il testo e resta proporzionata. */
+    .about-photo {
+        width: min(420px, 88%);
+        height: auto;
+        margin: 0 auto 45px;
+        aspect-ratio: 3 / 4;
+        border-radius: 0 0 0 40px;
+}
+}
+
+/* Altezza adattata alla navbar degli smartphone. */
+@media (max-width: 600px) {
+    .about-section {
+        min-height: calc(100svh - 88px);
+    }
+}
+
+/* =========================================================
+   CONTATTI — EMAIL PERSONALE
+   ========================================================= */
+
+/* Occupa lo spazio sotto il logo e il pulsante lingua. */
+.contact-section {
+    min-height: calc(100svh - 112px);
+}
+
+/* Mantiene l'indirizzo vicino alla sua intestazione. */
+.contact-email {
+    margin-top: 36px;
+}
+
+/* Etichetta nello stesso carattere dei titoli del portfolio. */
+.contact-email h3 {
+    margin: 0 0 14px;
+    color: #c4b5fd;
+    font-family: var(--arcade-font);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Indirizzo leggibile anche sugli schermi piccoli. */
+.contact-email a {
+    color: var(--muted);
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: clamp(17px, 2vw, 24px);
+    overflow-wrap: anywhere;
+    transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+/* Il bagliore segnala che l'indirizzo è cliccabile. */
+.contact-email a:hover,
+.contact-email a:focus-visible {
+    color: #e2d6ff;
+    text-shadow:
+        0 0 5px rgb(196 181 253 / 45%),
+        0 0 12px rgb(167 139 250 / 25%);
+}
+
+/* Adatta la schermata all'intestazione degli smartphone. */
+@media (max-width: 600px) {
+    .contact-section {
+        min-height: calc(100svh - 88px);
+    }
+}
+
+/* =========================================================
+   ADATTAMENTO AGLI SMARTPHONE
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .navbar {
+        min-height: 88px;
+    }
+
+    /* Riduce il logo CSS mantenendo le proporzioni interne. */
+    .cat-logo {
+        zoom: 0.8;
+    }
+
+    .header-controls {
+        gap: 16px;
+    }
+
+    .hero {
+        min-height: calc(100svh - 88px);
+        padding: 40px 6% 64px;
+    }
+
+    .hero-name,
+    .hero-heading {
+        letter-spacing: 0;
+    }
+
+    .hero-description {
+        font-size: 17px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITÀ: MOVIMENTI RIDOTTI
+   ========================================================= */
+
+/* Disattiva animazioni e spostamenti secondo le preferenze del dispositivo. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+        /* Ferma la griglia se il dispositivo richiede movimenti ridotti. */
+        /* Ferma la griglia secondo le preferenze del dispositivo. */
+    .arcade-grid {
+        animation: none;
+    }
+
+    .hero-link,
+    .language-toggle {
+        transition: none;
+    }
+
+    .hero-link:hover {
+        transform: none;
+    }
+}
+
+/* =========================================================
+   SCHERMATE HOME E PROGETTI
+   ========================================================= */
+
+/* Nasconde completamente la schermata non attiva,
+   anche quando altre regole CSS impostano display: grid. */
+[hidden] {
+    display: none !important;
+}
+
+/* La schermata Progetti occupa lo spazio sotto la navbar. */
+.projects-section {
+    min-height: calc(100svh - 112px);
+}
+
+/* Adatta l'altezza alla navbar più piccola degli smartphone. */
+@media (max-width: 600px) {
+    .projects-section {
+        min-height: calc(100svh - 88px);
+    }
+}
+

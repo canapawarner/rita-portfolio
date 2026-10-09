@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <!-- Supporta accenti e adatta il sito agli schermi piccoli. -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rita | Portfolio di programmazione</title>
+    <meta
+        name="description"
+        content="Il portfolio di Rita: progetti di sviluppo web, desktop e videogiochi."
+    >
+
+        <!-- Logo visualizzato nella scheda del browser. -->
+    <link rel="icon" type="image/png" href="images/logo_portfolio_1.0.png">
+
+        <!-- Carattere geometrico simile al riferimento: richiede Internet. -->
+        <!-- Orbitron per i titoli; Poppins per ruolo, descrizione e pulsanti. -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+        
+
+    <header class="site-header">
+        <nav class="navbar" aria-label="Menu">
+
+                                    <!-- Logo personale con sfondo trasparente. -->
+                                    <a class="brand" href="#home" aria-label="Rita — Home">
+                                        <img
+                                            class="brand-logo"
+                                            src="images/logo_portfolio_1.0.png"
+                                            alt="Iniziali RR a forma di gatto"
+                                            width="110"
+                                            height="110"
+                                        >
+                                    </a>
+
+            <div class="header-controls">
+
+                <!-- Passa alla lingua indicata sul pulsante. -->
+                <button
+                    id="language-toggle"
+                    class="language-toggle"
+                    type="button"
+                    aria-label="Switch to English"
+                >
+                    EN
+                </button>
+
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+                <!-- Home: sfondo e contenuto sono due blocchi separati. -->
+                <section id="home" class="hero" aria-labelledby="hero-title">
+
+                    <!-- Scena decorativa: griglia e gatto non intercettano i clic. -->
+                    <div class="arcade-background" aria-hidden="true">
+                        <div class="arcade-grid"></div>
+
+                        <!-- Il gatto viene disegnato pixel per pixel da script.js. -->
+                        <canvas id="pixel-cat" class="pixel-cat"></canvas>
+                    </div>
+
+                    <!-- Si spostano insieme soltanto le scritte e i pulsanti. -->
+                    <div class="hero-content">
+
+                        <h1 id="hero-title">
+                            <span class="hero-name" data-i18n="name">
+                                Sono Rita Ribaudo
+                            </span>
+
+                            <span class="hero-heading" data-i18n="headline">
+                                Trasformo le idee in progetti attraverso il codice.
+                            </span>
+                        </h1>
+
+                        <!-- Ruolo collegato ai progetti realizzati. -->
+                        <p class="hero-role" data-i18n="role">
+                            Programmatrice junior · Sviluppo web, desktop e videogiochi
+                        </p>
+
+                <p class="hero-description" data-i18n="description">
+                    Dalla formazione artistica alla programmazione:
+                    costruisco applicazioni e interfacce, unendo
+                    attenzione visiva e competenze tecniche.
+                </p>
+
+                <div class="hero-links">
+                    <!-- Menu a tutta schermata con quattro voci centrali. -->
+                    <details class="navigation-menu">
+                        <!-- Pulsante che apre il menu del sito. -->
+                        <!-- Pulsante testuale che apre il menu del sito. -->
+                        <summary class="hero-link">
+                            <span data-i18n="exploreSite">Esplora il sito</span>
+                        </summary>
+
+                        <div class="menu-links">
+
+                            <!-- Percorsi arcade decorativi con luci in movimento. -->
+                            <svg class="menu-circuit"
+                                viewBox="0 0 1440 900"
+                                preserveAspectRatio="xMidYMid slice"
+                                aria-hidden="true"
+                                focusable="false">
+
+                                <!-- Linee di fondo: ogni percorso ha un colore diverso. -->
+                                <g class="circuit-tracks">
+                                    <path class="track-pink" pathLength="1000"
+                                        d="M20 100 H160 V320 H280 V70 H450 V200 H600"/>
+                                    <path class="track-purple" pathLength="1000"
+                                        d="M0 480 H100 V390 H350 V650 H220 V820 H40"/>
+                                    <path class="track-blue" pathLength="1000"
+                                        d="M350 0 V110 H700 V50 H1000 V190 H1210 V70 H1440"/>
+                                    <path class="track-pink" pathLength="1000"
+                                        d="M1440 310 H1320 V470 H1180 V250 H1050 V580 H1400"/>
+                                    <path class="track-blue" pathLength="1000"
+                                        d="M1440 740 H1290 V620 H1100 V800 H850 V690 H620 V900"/>
+                                    <path class="track-purple" pathLength="1000"
+                                        d="M0 690 H130 V570 H420 V760 H530 V860 H300 V900"/>
+                                </g>
+
+                                <!-- Tratti luminosi che percorrono le stesse linee. -->
+                                <g class="circuit-lights">
+                                    <path class="track-pink" pathLength="1000"
+                                        d="M20 100 H160 V320 H280 V70 H450 V200 H600"/>
+                                    <path class="track-purple" pathLength="1000"
+                                        d="M0 480 H100 V390 H350 V650 H220 V820 H40"/>
+                                    <path class="track-blue" pathLength="1000"
+                                        d="M350 0 V110 H700 V50 H1000 V190 H1210 V70 H1440"/>
+                                    <path class="track-pink" pathLength="1000"
+                                        d="M1440 310 H1320 V470 H1180 V250 H1050 V580 H1400"/>
+                                    <path class="track-blue" pathLength="1000"
+                                        d="M1440 740 H1290 V620 H1100 V800 H850 V690 H620 V900"/>
+                                    <path class="track-purple" pathLength="1000"
+                                        d="M0 690 H130 V570 H420 V760 H530 V860 H300 V900"/>
+                                </g>
+                            </svg>
+                            <a href="#home">
+                                <!-- Stella decorativa come quella sulla fronte del gatto. -->
+                                <span class="menu-symbol" aria-hidden="true">✦</span>
+                                <span data-i18n="menuHome">Home</span>
+                            </a>
+
+                            <a href="#projects">
+                                <!-- Stella decorativa come quella sulla fronte del gatto. -->
+                                <span class="menu-symbol" aria-hidden="true">✦</span>
+                                <span data-i18n="menuWork">Progetti</span>
+                            </a>
+
+                            <a href="#about">
+                                <!-- Stella decorativa come quella sulla fronte del gatto. -->
+                                <span class="menu-symbol" aria-hidden="true">✦</span>
+                                <span data-i18n="menuAbout">Chi sono</span>
+                            </a>
+
+                            <a href="#contact">
+                                <!-- Stella decorativa come quella sulla fronte del gatto. -->
+                                <span class="menu-symbol" aria-hidden="true">✦</span>
+                                <span data-i18n="menuContact">Contatti</span>
+                            </a>
+                        </div>
+                    </details>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =====================================================
+     PROGETTI — ELENCO A SINISTRA E ANTEPRIMA A DESTRA
+     ===================================================== -->
+    <!-- Progetti parte nascosto: viene aperto dal pulsante o dal menu. -->
+    <section id="projects" class="projects-section"
+            aria-labelledby="projects-title" hidden>
+
+        <div class="projects-layout">
+
+            <!-- Elenco in ordine di realizzazione. -->
+            <div class="projects-list">
+                <div class="projects-header">
+                    <h2 id="projects-title" data-i18n="projects">Progetti</h2>
+                    <span class="projects-count" aria-label="3 progetti">03</span>
+                </div>
+
+                <button class="project-choice is-selected" type="button"
+                        data-project="loveball" aria-pressed="true"
+                        aria-controls="preview-loveball">
+                    <span class="project-choice-name">Loveball</span>
+                    <span class="project-choice-category" data-i18n="gameDevelopment">
+                        Sviluppo videogiochi
+                    </span>
+                </button>
+
+                <button class="project-choice" type="button"
+                        data-project="chillroom-web" aria-pressed="false"
+                        aria-controls="preview-chillroom-web">
+                    <span class="project-choice-name">ChillRoom Web</span>
+                    <span class="project-choice-category" data-i18n="webDevelopment">
+                        Sviluppo web
+                    </span>
+                </button>
+
+                <button class="project-choice" type="button"
+                        data-project="chillroom-desktop" aria-pressed="false"
+                        aria-controls="preview-chillroom-desktop">
+                    <span class="project-choice-name">ChillRoom Desktop</span>
+                    <span class="project-choice-category" data-i18n="desktopDevelopment">
+                        Sviluppo desktop
+                    </span>
+                </button>
+            </div>
+
+                        <!-- Un solo progetto visibile alla volta. -->
+            <div class="project-previews">
+
+                <!-- Loveball è il progetto visibile inizialmente. -->
+                <article id="preview-loveball" class="project-preview"
+                         data-preview="loveball"
+                         aria-labelledby="title-loveball">
+
+                    <h3 id="title-loveball">Loveball</h3>
+
+                    <!-- Copertina illustrata di Loveball. -->
+                    <div class="project-cover">
+                        <img
+                            src="images/loveball-cover.png"
+                            alt="Loveball: cuore pixel rosa, palline e ostacoli geometrici"
+                            width="1024"
+                            height="1536"
+                        >
+                    </div>
+
+                    <ul class="project-technologies" aria-label="Tecnologie">
+                        <li>C++</li>
+                        <li>SFML</li>
+                    </ul>
+
+                    <!-- Descrizione tecnica e percorso personale di Loveball. -->
+                    <div class="project-description">
+                        <h4 data-i18n="developmentTitle">Sviluppo</h4>
+
+                        <p data-i18n="loveballDescription">
+                            Ho sviluppato un gioco arcade in C++ con SFML:
+                            movimento della palla e della piattaforma, collisioni,
+                            ostacoli, gestione delle vite e condizioni di vittoria
+                            e sconfitta.
+                        </p>
+
+                        <div class="project-journey">
+                            <h4 data-i18n="journeyTitle">Il mio percorso</h4>
+                            <p data-i18n="loveballJourney">
+                                Con Loveball ho iniziato a trasformare lo studio del C++
+                                in qualcosa di concreto e giocabile. Sono partita dal
+                                movimento di una palla e di una piattaforma, aggiungendo
+                                gradualmente regole, ostacoli e dettagli visivi.
+                                La mia formazione artistica ha trovato spazio nei colori
+                                e nella pixel art; la programmazione mi ha insegnato a
+                                costruire il comportamento del gioco, una soluzione alla volta.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- ChillRoom Web appare quando selezioni la relativa voce. -->
+                <article id="preview-chillroom-web" class="project-preview"
+                         data-preview="chillroom-web"
+                         aria-labelledby="title-chillroom-web" hidden>
+
+                    <h3 id="title-chillroom-web">ChillRoom Web</h3>
+
+                    <!-- Copertina illustrata della piattaforma web. -->
+                    <div class="project-cover">
+                        <img
+                            src="images/chillroom-web-cover.png"
+                            alt="ChillRoom Web: fumetti lilla e menta su sfondo turchese"
+                            width="1024"
+                            height="1536"
+                        >
+                    </div>
+
+                    <ul class="project-technologies" aria-label="Tecnologie">
+                        <li>Python</li>
+                        <li>Flask</li>
+                        <li>JavaScript</li>
+                        <li>PostgreSQL</li>
+                    </ul>
+
+                    <!-- Descrizione tecnica e percorso personale di ChillRoom Web. -->
+                    <div class="project-description">
+                        <h4 data-i18n="developmentTitle">Sviluppo</h4>
+
+                        <p data-i18n="webDescription">
+                            Ho costruito una piattaforma web con autenticazione,
+                            chat in tempo reale, condivisione di idee e area giochi.
+                            Ho lavorato sul backend, sul database e sull'interfaccia
+                            in HTML, CSS e JavaScript.
+                        </p>
+
+                        <div class="project-journey">
+                            <h4 data-i18n="journeyTitle">Il mio percorso</h4>
+                            <p data-i18n="webJourney">
+                                ChillRoom è nato dall'idea di creare uno spazio privato
+                                per ritrovarsi con gli amici, parlare e condividere idee
+                                e giochi. Partendo da Python e Flask, ho imparato a
+                                collegare ciò che l'utente vede ai dati e alle funzionalità
+                                che lo fanno funzionare. Portare il progetto online mi
+                                ha avvicinata anche agli aspetti pratici di un sito:
+                                hosting, dominio e verifica degli account.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Desktop occupa lo stesso spazio degli altri progetti. -->
+                <article id="preview-chillroom-desktop" class="project-preview"
+                         data-preview="chillroom-desktop"
+                         aria-labelledby="title-chillroom-desktop" hidden>
+
+                    <h3 id="title-chillroom-desktop">ChillRoom Desktop</h3>
+
+                    <!-- Copertina illustrata dell'applicazione desktop. -->
+                    <div class="project-cover">
+                        <img
+                            src="images/chillroom-desktop-cover.png"
+                            alt="ChillRoom Desktop: finestre viola, cubo pesca e stella rosa"
+                            width="1024"
+                            height="1536"
+                        >
+                    </div>
+
+                    <ul class="project-technologies" aria-label="Tecnologie">
+                        <li>C++</li>
+                        <li>Qt Widgets</li>
+                        <li>CMake</li>
+                        <li>WebSocket</li>
+                    </ul>
+
+                    <!-- Descrizione tecnica e percorso personale di ChillRoom Desktop. -->
+                    <div class="project-description">
+                        <h4 data-i18n="developmentTitle">Sviluppo</h4>
+
+                        <p data-i18n="desktopDescription">
+                            Ho realizzato la versione desktop di ChillRoom in C++
+                            con Qt Widgets, sviluppando interfacce native e collegamenti
+                            con il servizio web per messaggi e presenza degli utenti.
+                        </p>
+
+                        <div class="project-journey">
+                            <h4 data-i18n="journeyTitle">Il mio percorso</h4>
+                            <p data-i18n="desktopJourney">
+                                Dopo la versione web, ho voluto esplorare come portare
+                                ChillRoom in un'applicazione desktop. Con C++ e Qt ho
+                                lavorato per ricrearne l'identità visiva e collegarla
+                                allo stesso servizio. Questo progetto mi sta insegnando
+                                a ragionare sulla coerenza tra interfacce diverse e sulla
+                                sincronizzazione di messaggi e presenza, curando anche
+                                i piccoli dettagli che rendono un'applicazione piacevole da usare.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =====================================================
+     CHI SONO — PRESENTAZIONE E FOTO PERSONALE
+     ===================================================== -->
+    <section id="about" class="about-section"
+            aria-labelledby="about-title" hidden>
+
+        <!-- Presentazione personale nella colonna sinistra. -->
+        <div class="about-content">
+            <h2 id="about-title" data-i18n="about">Chi sono</h2>
+
+            <div class="about-text">
+                <p data-i18n="aboutIntro">
+                    Sono Rita Ribaudo, programmatrice junior con una
+                    formazione artistica. Amo i videogiochi, la lettura,
+                    il disegno e i gatti. La musica accompagna la mia
+                    quotidianità: esploro generi diversi, ma il rock
+                    resta quello in cui mi riconosco di più.
+                </p>
+
+                <p data-i18n="aboutPassion">
+                    Nella programmazione ho trovato il modo di dare
+                    voce alla mia creatività e unire sensibilità visiva
+                    e pensiero logico. Mi appassiona trasformare un'idea
+                    in qualcosa di concreto, affrontare problemi e
+                    costruire soluzioni che siano funzionali e curate
+                    anche nell'esperienza di chi le utilizza.
+                </p>
+            </div>
+
+                        <!-- Due download separati per i curriculum italiano e inglese. -->
+                        <div class="about-downloads">
+                            <a class="about-download"
+                            href="files/Rita_Ribaudo_Curriculum_Italiano.pdf"
+                            download>
+                                <span aria-hidden="true">↓</span>
+                                <span data-i18n="downloadPortfolioItalian">
+                                    Scarica portfolio: italiano
+                                </span>
+                            </a>
+
+                            <a class="about-download"
+                            href="files/Rita_Ribaudo_CV_English.pdf"
+                            download>
+                                <span aria-hidden="true">↓</span>
+                                <span data-i18n="downloadPortfolioEnglish">
+                                    Scarica portfolio: inglese
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+                    
+        <!-- Foto personale nella colonna destra. -->
+        <figure class="about-photo">
+            <img
+                src="images/rita-portfolio.jpg"
+                alt="Rita Ribaudo"
+            >
+        </figure>
+    </section>
+
+    <!-- Schermata Contatti: indirizzo email personale. -->
+    <section id="contact" class="contact-section"
+            aria-labelledby="contact-title" hidden>
+
+        <div class="about-content">
+            <!-- Riprende lo stile del titolo e della barra di Chi sono. -->
+            <h2 id="contact-title" data-i18n="contact">Contatti</h2>
+
+            <!-- Indirizzo email visibile: al clic apre il programma di posta. -->
+            <div class="contact-email">
+                <h3>E-MAIL</h3>
+
+                <a href="mailto:rita.ribaudo95@gmail.com">
+                    rita.ribaudo95@gmail.com
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Chiusura della pagina. -->
+    </main>
+</body>
+</html>
