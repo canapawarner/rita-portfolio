@@ -1070,6 +1070,7 @@ body:has(.navigation-menu[open]) {
 
 /* La copertina occupa la prima colonna senza cornici vuote. */
 .project-cover {
+    position: relative;
     grid-area: cover;
     width: 100%;
     margin: 0;
@@ -1084,6 +1085,41 @@ body:has(.navigation-menu[open]) {
     display: block;
     width: 100%;
     height: auto;
+}
+
+/* Link dei tre progetti, centrati nella parte alta delle copertine. */
+.project-cover-link {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    width: max-content;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    padding: 10px 16px;
+
+    color: #ffffff;
+    background: rgb(15 11 24 / 88%);
+    border: 1px solid #c4b5fd;
+    border-radius: 999px;
+
+    font-family: var(--arcade-font);
+    font-size: clamp(0.65rem, 1vw, 0.85rem);
+    text-align: center;
+    text-decoration: none;
+
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+/* Evidenzia i collegamenti al passaggio del mouse e con la tastiera. */
+.project-cover-link:hover,
+.project-cover-link:focus-visible {
+    background: #2b174f;
+    box-shadow: 0 0 14px rgb(167 139 250 / 55%);
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
 }
 
 
@@ -1630,7 +1666,7 @@ body:has(.navigation-menu[open]) {
     min-height: calc(100svh - 112px);
 }
 
-/* Adatta l'altezza alla navbar più piccola degli smartphonee. */
+/* Adatta l'altezza alla navbar più piccola degli smartphone. */
 @media (max-width: 600px) {
     .projects-section {
         min-height: calc(100svh - 88px);

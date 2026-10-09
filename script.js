@@ -10,6 +10,10 @@ const translations = {
         exploreSite: "Esplora il sito",
         viewAbout: "Scopri il mio percorso",
         projects: "Progetti",
+        // Collegamenti sulle copertine dei progetti.
+        downloadLoveball: "Scarica Loveball ↓",
+        visitChillroom: "Visita ChillRoom ↗",
+        downloadDesktop: "Scarica ChillRoom Desktop ↓",
         // Voci del menu a tutta schermata.
         menuHome: "Home",
         menuWork: "Progetti",
@@ -60,6 +64,10 @@ const translations = {
         exploreSite: "Explore the site",
         viewAbout: "Discover my journey",
         projects: "Projects",
+        // Collegamenti sulle copertine dei progetti in inglese.
+        downloadLoveball: "Download Loveball ↓",
+        visitChillroom: "Visit ChillRoom ↗",
+        downloadDesktop: "Download ChillRoom Desktop ↓",
                 // Voci inglesi come nel riferimento.
         menuHome: "Home",
         menuWork: "Work",
