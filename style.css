@@ -1630,7 +1630,7 @@ body:has(.navigation-menu[open]) {
     min-height: calc(100svh - 112px);
 }
 
-/* Adatta l'altezza alla navbar più piccola degli smartphone. */
+/* Adatta l'altezza alla navbar più piccola degli smartphonee. */
 @media (max-width: 600px) {
     .projects-section {
         min-height: calc(100svh - 88px);
